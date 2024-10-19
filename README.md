@@ -34,3 +34,6 @@ Social Network: A platform for users to connect with peers, share experiences, a
 
 ![Web capture_19-10-2024_21460_localhost](https://github.com/user-attachments/assets/ce0086e0-327f-4be1-a02e-c55dced5b619)
 ![Counsellor   Health Care by MSEC and 1 more page - Personal - Microsoft​ Edge 19-10-2024 21_45_12](https://github.com/user-attachments/assets/c59c56d4-f65e-4971-9352-51519075e0a3)
+
+
+![how-to-create-an-online-chatbot-in-php-1-1024x581 jpeg](https://github.com/user-attachments/assets/4352da4b-bb9a-4ea2-85c2-a95e0edb24d6)
