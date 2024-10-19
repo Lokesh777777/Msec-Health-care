@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #15468b; /* a soft blue background */
+    background-image: linear-gradient(to bottom, #236ba5, #2e58bb), url('https://picsum.photos/2000/1000'); /* add a subtle gradient effect and a background image */
+    background-size: cover; /* make the background image cover the entire page */
+    background-position: center; /* center the background image */
+    overflow: hidden; /* add a subtle overflow effect */
+    
+}
+
+
+.container {
+    text-align: center;
+    padding: 20px; /* add some padding to the container */
+    border-radius: 10px; /* add a subtle border radius */
+    box-shadow: 0 0 10px rgb(45, 102, 233); /* add a subtle shadow effect */
+    background-color: #0f8bd8; /* a white background for the container */
+    width: 80%; /* set a maximum width for the container */
+    margin: 20px auto; /* add some margin to the container */
+    animation-name: nihi;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+@keyframes nihi {
+    0%{color: #2e58bb;}
+    25%{color: #4CAF50;}
+    50%{color: #f1fd03;}
+    75%{color: #bf0be3;}
+    100%{color: #f41e0a;}
+
+}
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none; /* remove the default border */
+    border-radius: 5px; /* add a subtle border radius */
+    background-color: #4CAF50; /* a green background for the buttons */
+    color: #fff; /* white text color */
+    transition: background-color 0.2s ease; /* add a transition effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* add a subtle shadow effect */
+}
+
+button:hover {
+    background-color: #3e8e41; /* a darker green background on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* add a subtle shadow effect on hover */
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5; /* add a subtle opacity effect */
+}
+
+audio {
+    margin-top: 20px;
+    width: 100%; /* make the audio element full-width */
+    height: 30px; /* set a fixed height for the audio element */
+    border-radius: 5px; /* add a subtle border radius */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* add a subtle shadow effect */
+}
+
+/* Add some new features */
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    display: none; /* hide the loader by default */
+}
+
+.loader.show {
+    display: block; /* show the loader when needed */
+}
+
+.loader::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    border-top: 2px solid #4CAF50;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    height: 100vh;          /* Full height of the viewport for vertical centering */
+}
+
+.center-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+
+}
