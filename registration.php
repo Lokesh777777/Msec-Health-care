@@ -8,11 +8,10 @@ $city=$_POST['city'];
 $gender=$_POST['gender'];
 $email=$_POST['email'];
 $password=md5($_POST['password']);
-$query=mysqli_query($con,"insert into users(fullname,address,city,gender,email,password) values('$fname','$address','$city','$gender','$email','$password')");
+$query=mysql_query("insert into users(fullname,address,city,gender,email,password) values('$fname','$address','$city','$gender','$email','$password')");
 if($query)
 {
 	echo "<script>alert('Successfully Registered. You can login now');</script>";
-	//header('location:user-login.php');
 }
 }
 ?>
@@ -35,18 +34,7 @@ if($query)
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
 		
-		<script type="text/javascript">
-function valid()
-{
- if(document.registration.password.value!= document.registration.password_again.value)
-{
-alert("Password and Confirm Password Field do not match  !!");
-document.registration.password_again.focus();
-return false;
-}
-return true;
-}
-</script>
+		
 		
 
 	</head>
@@ -56,11 +44,11 @@ return true;
 		<div class="row">
 			<div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
 				<div class="logo margin-top-30">
-				<a href="../index.php"><h2>HMS | Patient Registration</h2></a>
+					<img src="assets/images/logo.png" alt="Clip-Two"/>
 				</div>
 				<!-- start: REGISTER BOX -->
 				<div class="box-register">
-					<form name="registration" id="registration"  method="post" onSubmit="return valid();">
+					<form name="registration" id="registration"  method="post">
 						<fieldset>
 							<legend>
 								Sign Up
@@ -108,12 +96,12 @@ return true;
 							</div>
 							<div class="form-group">
 								<span class="input-icon">
-									<input type="password" class="form-control"  id="password_again" name="password_again" placeholder="Password Again" required>
+									<input type="password" class="form-control" name="password_again" placeholder="Password Again" required>
 									<i class="fa fa-lock"></i> </span>
 							</div>
 							<div class="form-group">
 								<div class="checkbox clip-check check-primary">
-									<input type="checkbox" id="agree" value="agree" checked="true" readonly=" true">
+									<input type="checkbox" id="agree" value="agree">
 									<label for="agree">
 										I agree
 									</label>

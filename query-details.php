@@ -1,41 +1,29 @@
 <?php
 session_start();
-//error_reporting(0);
+error_reporting(0);
 include('include/config.php');
 if(strlen($_SESSION['id']==0)) {
  header('location:logout.php');
   } else{
 
-date_default_timezone_set('Asia/Kolkata');// change according timezone
-$currentTime = date( 'd-m-Y h:i:s A', time () );
-if(isset($_POST['submit']))
-{
-$cpass=$_POST['cpass'];	
-$uname=$_SESSION['login'];
-$sql=mysqli_query($con,"SELECT password FROM  admin where password='$cpass' && username='$uname'");
-$num=mysqli_fetch_array($sql);
-if($num>0)
-{
-$npass=$_POST['npass'];
- $con=mysqli_query($con,"update admin set password='$npass', updationDate='$currentTime' where username='$uname'");
-$_SESSION['msg1']="Password Changed Successfully !!";
+//updating Admin Remark
+if(isset($_POST['update']))
+		  {
+$qid=intval($_GET['id']);
+$adminremark=$_POST['adminremark'];
+$isread=1;
+$query=mysqli_query($con,"update tblcontactus set  AdminRemark='$adminremark',IsRead='$isread' where id='$qid'");
+if($query){
+echo "<script>alert('Admin Remark updated successfully.');</script>";
+echo "<script>window.location.href ='read-query.php'</script>";
 }
-else
-{
-$_SESSION['msg1']="Old Password not match !!";
-}
-}
+		  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Admin | change Password</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta content="" name="description" />
-		<meta content="" name="author" />
+		<title>Admin | Query Details</title>
+		
 		<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
@@ -50,37 +38,6 @@ $_SESSION['msg1']="Old Password not match !!";
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-<script type="text/javascript">
-function valid()
-{
-if(document.chngpwd.cpass.value=="")
-{
-alert("Current Password Filed is Empty !!");
-document.chngpwd.cpass.focus();
-return false;
-}
-else if(document.chngpwd.npass.value=="")
-{
-alert("New Password Filed is Empty !!");
-document.chngpwd.npass.focus();
-return false;
-}
-else if(document.chngpwd.cfpass.value=="")
-{
-alert("Confirm Password Filed is Empty !!");
-document.chngpwd.cfpass.focus();
-return false;
-}
-else if(document.chngpwd.npass.value!= document.chngpwd.cfpass.value)
-{
-alert("Password and Confirm Password Field do not match  !!");
-document.chngpwd.cfpass.focus();
-return false;
-}
-return true;
-}
-</script>
-
 	</head>
 	<body>
 		<div id="app">		
@@ -88,8 +45,7 @@ return true;
 			<div class="app-content">
 				
 						<?php include('include/header.php');?>
-		
-				</header>
+					
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -97,14 +53,15 @@ return true;
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Admin | Change Password</h1>
+									<h1 class="mainTitle">Admin | Query Details</h1>
 																	</div>
+
 								<ol class="breadcrumb">
 									<li>
 										<span>Admin</span>
 									</li>
 									<li class="active">
-										<span>Change Password</span>
+										<span>Query Details</span>
 									</li>
 								</ol>
 							</div>
@@ -112,68 +69,87 @@ return true;
 						<!-- end: PAGE TITLE -->
 						<!-- start: BASIC EXAMPLE -->
 						<div class="container-fluid container-fullw bg-white">
-							<div class="row">
+						
+
+									<div class="row">
 								<div class="col-md-12">
-									
-									<div class="row margin-top-30">
-										<div class="col-lg-8 col-md-12">
-											<div class="panel panel-white">
-												<div class="panel-heading">
-													<h5 class="panel-title">Change Password</h5>
-												</div>
-												<div class="panel-body">
-								<p style="color:red;"><?php echo htmlentities($_SESSION['msg1']);?>
-								<?php echo htmlentities($_SESSION['msg1']="");?></p>	
-													<form role="form" name="chngpwd" method="post" onSubmit="return valid();">
-														<div class="form-group">
-															<label for="exampleInputEmail1">
-																Current Password
-															</label>
-							<input type="password" name="cpass" class="form-control"  placeholder="Enter Current Password">
-														</div>
-														<div class="form-group">
-															<label for="exampleInputPassword1">
-																New Password
-															</label>
-					<input type="password" name="npass" class="form-control"  placeholder="New Password">
-														</div>
-														
-<div class="form-group">
-															<label for="exampleInputPassword1">
-																Confirm Password
-															</label>
-									<input type="password" name="cfpass" class="form-control"  placeholder="Confirm Password">
-														</div>
-														
-														
-														
-														<button type="submit" name="submit" class="btn btn-o btn-primary">
-															Submit
-														</button>
-													</form>
-												</div>
-											</div>
-										</div>
+									<h5 class="over-title margin-bottom-15">Manage <span class="text-bold">Query Details</span></h5>
+												<hr />
+									<table class="table table-hover" id="sample-table-1">
+		
+										<tbody>
+<?php
+$qid=intval($_GET['id']);
+$sql=mysqli_query($con,"select * from tblcontactus where id='$qid'");
+$cnt=1;
+while($row=mysqli_fetch_array($sql))
+{
+?>
+
+											<tr>
+												<th>Full Name</th>
+												<td><?php echo $row['fullname'];?></td>
+											</tr>
+
+											<tr>
+												<th>Email Id</th>
+												<td><?php echo $row['email'];?></td>
+											</tr>
+											<tr>
+												<th>Conatact Numner</th>
+												<td><?php echo $row['contactno'];?></td>
+											</tr>
+											<tr>
+												<th>Message</th>
+												<td><?php echo $row['message'];?></td>
+												</tr>
+
+																						<tr>
+												<th>Query Date</th>
+												<td><?php echo $row['PostingDate'];?></td>
+												</tr>
+
+<?php if($row['AdminRemark']==""){?>	
+<form name="query" method="post">
+	<tr>
+												<th>Admin Remark</th>
+												<td><textarea name="adminremark" class="form-control" required="true"></textarea></td>
+												</tr>
+												<tr>
+													<td>&nbsp;</td>
+													<td>	
+														<button type="submit" class="btn btn-primary pull-left" name="update">
+		Update <i class="fa fa-arrow-circle-right"></i>
+								</button>
+
+													</td>
+												</tr>
+
+</form>												
+													<?php } else {?>										
+	
+	<tr>
+												<th>Admin Remark</th>
+												<td><?php echo $row['AdminRemark'];?></td>
+												</tr>
+
+<tr>
+												<th>Last Updatation Date</th>
+												<td><?php echo $row['LastupdationDate'];?></td>
+												</tr>
 											
-											</div>
-										</div>
-									<div class="col-lg-12 col-md-12">
-											<div class="panel panel-white">
-												
-												
-											</div>
-										</div>
-									</div>
+											<?php 
+											 }} ?>
+											
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
 								</div>
 							</div>
 						</div>
 						<!-- end: BASIC EXAMPLE -->
-			
-					
-					
-						
-						
-					
 						<!-- end: SELECT BOXES -->
 						
 					</div>
@@ -185,7 +161,7 @@ return true;
 		
 			<!-- start: SETTINGS -->
 	<?php include('include/setting.php');?>
-		
+			
 			<!-- end: SETTINGS -->
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->

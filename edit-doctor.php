@@ -1,41 +1,33 @@
 <?php
 session_start();
-//error_reporting(0);
+error_reporting(0);
 include('include/config.php');
 if(strlen($_SESSION['id']==0)) {
  header('location:logout.php');
   } else{
 
-date_default_timezone_set('Asia/Kolkata');// change according timezone
-$currentTime = date( 'd-m-Y h:i:s A', time () );
+$did=intval($_GET['id']);// get doctor id
 if(isset($_POST['submit']))
 {
-$cpass=$_POST['cpass'];	
-$uname=$_SESSION['login'];
-$sql=mysqli_query($con,"SELECT password FROM  admin where password='$cpass' && username='$uname'");
-$num=mysqli_fetch_array($sql);
-if($num>0)
+	$docspecialization=$_POST['Doctorspecialization'];
+$docname=$_POST['docname'];
+$docaddress=$_POST['clinicaddress'];
+$docfees=$_POST['docfees'];
+$doccontactno=$_POST['doccontact'];
+$docemail=$_POST['docemail'];
+$sql=mysqli_query($con,"Update doctors set specilization='$docspecialization',doctorName='$docname',address='$docaddress',docFees='$docfees',contactno='$doccontactno',docEmail='$docemail' where id='$did'");
+if($sql)
 {
-$npass=$_POST['npass'];
- $con=mysqli_query($con,"update admin set password='$npass', updationDate='$currentTime' where username='$uname'");
-$_SESSION['msg1']="Password Changed Successfully !!";
-}
-else
-{
-$_SESSION['msg1']="Old Password not match !!";
+$msg="Doctor Details updated Successfully";
+
 }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Admin | change Password</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta content="" name="description" />
-		<meta content="" name="author" />
+		<title>Admin | Edit Doctor Details</title>
+		
 		<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
@@ -50,36 +42,7 @@ $_SESSION['msg1']="Old Password not match !!";
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-<script type="text/javascript">
-function valid()
-{
-if(document.chngpwd.cpass.value=="")
-{
-alert("Current Password Filed is Empty !!");
-document.chngpwd.cpass.focus();
-return false;
-}
-else if(document.chngpwd.npass.value=="")
-{
-alert("New Password Filed is Empty !!");
-document.chngpwd.npass.focus();
-return false;
-}
-else if(document.chngpwd.cfpass.value=="")
-{
-alert("Confirm Password Filed is Empty !!");
-document.chngpwd.cfpass.focus();
-return false;
-}
-else if(document.chngpwd.npass.value!= document.chngpwd.cfpass.value)
-{
-alert("Password and Confirm Password Field do not match  !!");
-document.chngpwd.cfpass.focus();
-return false;
-}
-return true;
-}
-</script>
+
 
 	</head>
 	<body>
@@ -88,8 +51,8 @@ return true;
 			<div class="app-content">
 				
 						<?php include('include/header.php');?>
-		
-				</header>
+						<!-- start: MENU TOGGLER FOR MOBILE DEVICES -->
+					
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -97,14 +60,14 @@ return true;
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Admin | Change Password</h1>
+									<h1 class="mainTitle">Admin | Edit Doctor Details</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
 										<span>Admin</span>
 									</li>
 									<li class="active">
-										<span>Change Password</span>
+										<span>Edit Doctor Details</span>
 									</li>
 								</ol>
 							</div>
@@ -114,41 +77,88 @@ return true;
 						<div class="container-fluid container-fullw bg-white">
 							<div class="row">
 								<div class="col-md-12">
-									
+									<h5 style="color: green; font-size:18px; ">
+<?php if($msg) { echo htmlentities($msg);}?> </h5>
 									<div class="row margin-top-30">
 										<div class="col-lg-8 col-md-12">
 											<div class="panel panel-white">
 												<div class="panel-heading">
-													<h5 class="panel-title">Change Password</h5>
+													<h5 class="panel-title">Edit Doctor info</h5>
 												</div>
 												<div class="panel-body">
-								<p style="color:red;"><?php echo htmlentities($_SESSION['msg1']);?>
-								<?php echo htmlentities($_SESSION['msg1']="");?></p>	
-													<form role="form" name="chngpwd" method="post" onSubmit="return valid();">
+									<?php $sql=mysqli_query($con,"select * from doctors where id='$did'");
+while($data=mysqli_fetch_array($sql))
+{
+?>
+<h4><?php echo htmlentities($data['doctorName']);?>'s Profile</h4>
+<p><b>Profile Reg. Date: </b><?php echo htmlentities($data['creationDate']);?></p>
+<?php if($data['updationDate']){?>
+<p><b>Profile Last Updation Date: </b><?php echo htmlentities($data['updationDate']);?></p>
+<?php } ?>
+<hr />
+													<form role="form" name="adddoc" method="post" onSubmit="return valid();">
 														<div class="form-group">
-															<label for="exampleInputEmail1">
-																Current Password
+															<label for="DoctorSpecialization">
+																Doctor Specialization
 															</label>
-							<input type="password" name="cpass" class="form-control"  placeholder="Enter Current Password">
+							<select name="Doctorspecialization" class="form-control" required="required">
+					<option value="<?php echo htmlentities($data['specilization']);?>">
+					<?php echo htmlentities($data['specilization']);?></option>
+<?php $ret=mysqli_query($con,"select * from doctorspecilization");
+while($row=mysqli_fetch_array($ret))
+{
+?>
+																<option value="<?php echo htmlentities($row['specilization']);?>">
+																	<?php echo htmlentities($row['specilization']);?>
+																</option>
+																<?php } ?>
+																
+															</select>
 														</div>
-														<div class="form-group">
-															<label for="exampleInputPassword1">
-																New Password
-															</label>
-					<input type="password" name="npass" class="form-control"  placeholder="New Password">
-														</div>
-														
+
 <div class="form-group">
-															<label for="exampleInputPassword1">
-																Confirm Password
+															<label for="doctorname">
+																 Doctor Name
 															</label>
-									<input type="password" name="cfpass" class="form-control"  placeholder="Confirm Password">
+	<input type="text" name="docname" class="form-control" value="<?php echo htmlentities($data['doctorName']);?>" >
 														</div>
+
+
+<div class="form-group">
+															<label for="address">
+																 Doctor Clinic Address
+															</label>
+					<textarea name="clinicaddress" class="form-control"><?php echo htmlentities($data['address']);?></textarea>
+														</div>
+<div class="form-group">
+															<label for="fess">
+																 Doctor Consultancy Fees
+															</label>
+		<input type="text" name="docfees" class="form-control" required="required"  value="<?php echo htmlentities($data['docFees']);?>" >
+														</div>
+	
+<div class="form-group">
+									<label for="fess">
+																 Doctor Contact no
+															</label>
+					<input type="text" name="doccontact" class="form-control" required="required"  value="<?php echo htmlentities($data['contactno']);?>">
+														</div>
+
+<div class="form-group">
+									<label for="fess">
+																 Doctor Email
+															</label>
+					<input type="email" name="docemail" class="form-control"  readonly="readonly"  value="<?php echo htmlentities($data['docEmail']);?>">
+														</div>
+
+
+
 														
+														<?php } ?>
 														
 														
 														<button type="submit" name="submit" class="btn btn-o btn-primary">
-															Submit
+															Update
 														</button>
 													</form>
 												</div>
@@ -185,7 +195,7 @@ return true;
 		
 			<!-- start: SETTINGS -->
 	<?php include('include/setting.php');?>
-		
+			<>
 			<!-- end: SETTINGS -->
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->

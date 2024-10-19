@@ -1,41 +1,18 @@
 <?php
 session_start();
-//error_reporting(0);
+error_reporting(0);
 include('include/config.php');
 if(strlen($_SESSION['id']==0)) {
  header('location:logout.php');
   } else{
 
-date_default_timezone_set('Asia/Kolkata');// change according timezone
-$currentTime = date( 'd-m-Y h:i:s A', time () );
-if(isset($_POST['submit']))
-{
-$cpass=$_POST['cpass'];	
-$uname=$_SESSION['login'];
-$sql=mysqli_query($con,"SELECT password FROM  admin where password='$cpass' && username='$uname'");
-$num=mysqli_fetch_array($sql);
-if($num>0)
-{
-$npass=$_POST['npass'];
- $con=mysqli_query($con,"update admin set password='$npass', updationDate='$currentTime' where username='$uname'");
-$_SESSION['msg1']="Password Changed Successfully !!";
-}
-else
-{
-$_SESSION['msg1']="Old Password not match !!";
-}
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Admin | change Password</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta content="" name="description" />
-		<meta content="" name="author" />
+		<title>Admin | Manage Read Queries</title>
+		
 		<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
@@ -50,37 +27,6 @@ $_SESSION['msg1']="Old Password not match !!";
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-<script type="text/javascript">
-function valid()
-{
-if(document.chngpwd.cpass.value=="")
-{
-alert("Current Password Filed is Empty !!");
-document.chngpwd.cpass.focus();
-return false;
-}
-else if(document.chngpwd.npass.value=="")
-{
-alert("New Password Filed is Empty !!");
-document.chngpwd.npass.focus();
-return false;
-}
-else if(document.chngpwd.cfpass.value=="")
-{
-alert("Confirm Password Filed is Empty !!");
-document.chngpwd.cfpass.focus();
-return false;
-}
-else if(document.chngpwd.npass.value!= document.chngpwd.cfpass.value)
-{
-alert("Password and Confirm Password Field do not match  !!");
-document.chngpwd.cfpass.focus();
-return false;
-}
-return true;
-}
-</script>
-
 	</head>
 	<body>
 		<div id="app">		
@@ -88,8 +34,7 @@ return true;
 			<div class="app-content">
 				
 						<?php include('include/header.php');?>
-		
-				</header>
+					
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -97,14 +42,14 @@ return true;
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Admin | Change Password</h1>
+									<h1 class="mainTitle">Admin | Manage Read Queries</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
 										<span>Admin</span>
 									</li>
 									<li class="active">
-										<span>Change Password</span>
+										<span>Read Queries</span>
 									</li>
 								</ol>
 							</div>
@@ -112,68 +57,83 @@ return true;
 						<!-- end: PAGE TITLE -->
 						<!-- start: BASIC EXAMPLE -->
 						<div class="container-fluid container-fullw bg-white">
-							<div class="row">
+						
+
+									<div class="row">
 								<div class="col-md-12">
-									
-									<div class="row margin-top-30">
-										<div class="col-lg-8 col-md-12">
-											<div class="panel panel-white">
-												<div class="panel-heading">
-													<h5 class="panel-title">Change Password</h5>
+									<h5 class="over-title margin-bottom-15">Manage <span class="text-bold">Read Queries</span></h5>
+									<table class="table table-hover" id="sample-table-1">
+										<thead>
+											<tr>
+												<th class="center">#</th>
+												<th>Name</th>
+												<th class="hidden-xs">Email</th>
+												<th>Contact No. </th>
+												<th>Message </th>
+												<th>Query Date</th>
+												<th>Action</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+<?php
+$sql=mysqli_query($con,"select * from tblcontactus where IsRead is not null");
+$cnt=1;
+while($row=mysqli_fetch_array($sql))
+{
+?>
+
+											<tr>
+												<td class="center"><?php echo $cnt;?>.</td>
+												<td class="hidden-xs"><?php echo $row['fullname'];?></td>
+												<td><?php echo $row['email'];?></td>
+												<td><?php echo $row['contactno'];?></td>
+												<td><?php echo $row['message'];?></td>
+												<td><?php echo $row['PostingDate'];?></td>
+												
+												<td >
+												<div class="visible-md visible-lg hidden-sm hidden-xs">
+							<a href="query-details.php?id=<?php echo $row['id'];?>" class="btn btn-transparent btn-lg" title="View Details"><i class="fa fa-file"></i></a>
 												</div>
-												<div class="panel-body">
-								<p style="color:red;"><?php echo htmlentities($_SESSION['msg1']);?>
-								<?php echo htmlentities($_SESSION['msg1']="");?></p>	
-													<form role="form" name="chngpwd" method="post" onSubmit="return valid();">
-														<div class="form-group">
-															<label for="exampleInputEmail1">
-																Current Password
-															</label>
-							<input type="password" name="cpass" class="form-control"  placeholder="Enter Current Password">
-														</div>
-														<div class="form-group">
-															<label for="exampleInputPassword1">
-																New Password
-															</label>
-					<input type="password" name="npass" class="form-control"  placeholder="New Password">
-														</div>
-														
-<div class="form-group">
-															<label for="exampleInputPassword1">
-																Confirm Password
-															</label>
-									<input type="password" name="cfpass" class="form-control"  placeholder="Confirm Password">
-														</div>
-														
-														
-														
-														<button type="submit" name="submit" class="btn btn-o btn-primary">
-															Submit
+												<div class="visible-xs visible-sm hidden-md hidden-lg">
+													<div class="btn-group" dropdown is-open="status.isopen">
+														<button type="button" class="btn btn-primary btn-o btn-sm dropdown-toggle" dropdown-toggle>
+															<i class="fa fa-cog"></i>&nbsp;<span class="caret"></span>
 														</button>
-													</form>
-												</div>
-											</div>
-										</div>
+														<ul class="dropdown-menu pull-right dropdown-light" role="menu">
+															<li>
+																<a href="#">
+																	Edit
+																</a>
+															</li>
+															<li>
+																<a href="#">
+																	Share
+																</a>
+															</li>
+															<li>
+																<a href="#">
+																	Remove
+																</a>
+															</li>
+														</ul>
+													</div>
+												</div></td>
+											</tr>
 											
-											</div>
-										</div>
-									<div class="col-lg-12 col-md-12">
-											<div class="panel panel-white">
-												
-												
-											</div>
-										</div>
-									</div>
+											<?php 
+$cnt=$cnt+1;
+											 }?>
+											
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
 								</div>
 							</div>
 						</div>
 						<!-- end: BASIC EXAMPLE -->
-			
-					
-					
-						
-						
-					
 						<!-- end: SELECT BOXES -->
 						
 					</div>
@@ -185,7 +145,7 @@ return true;
 		
 			<!-- start: SETTINGS -->
 	<?php include('include/setting.php');?>
-		
+			
 			<!-- end: SETTINGS -->
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->
