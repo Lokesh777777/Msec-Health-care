@@ -11,7 +11,7 @@ Academic Calendar: A specialized feature for students to track academic activiti
 
 Test-Based Marks and Pie Charts: Analytical tools that allow users to input their test scores and generate visual representations such as pie charts. These tools provide insights into academic performance, helping users identify strengths and areas for improvement.
 
-Relaxation Games: A curated collection of games designed to promote relaxation and stress relief. These games provide a fun and engaging way for users to take a break and recharge, contributing to overall mental wellness.
+Relaxation Games: A curated collection of games designed to promote relaxation and stress relief. These games provide a fun and engaging way for users to take a break and recharge, contributing to overall mental wellness. 
 
 Live Counseling: Access to live counseling sessions with qualified![Web capture_19-10-2024_214249_localhost](https://github.com/user-attachments/assets/c2cf553c-40e9-4c43-8800-36293e72cd47)
  mental health professionals. This feature offers personalized support and guidance, helping users navigate their mental health journey with professional assistance.
