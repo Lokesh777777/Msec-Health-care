@@ -4,6 +4,7 @@ Welcome to the Mental Health Care Platform—a comprehensive and versatile solut
 Key Features
 Chat Bot: An advanced AI-powered chat bot that offers real-time support, answers queries, and provides resources tailored to individual mental health needs. The chat bot is designed to be a first line of support, offering a friendly and non-judgmental space for users to express themselves.
 
+
 Assistant Bot: A personal assistant designed to help users manage their daily schedules, set reminders, and organize tasks. This feature ensures users maintain a balanced and structured routine, which is essential for mental well-being.
 
 Academic Calendar: A specialized feature for students to track academic activities, deadlines, and exam schedules. By keeping track of academic responsibilities, students can reduce stress and improve time management, which are critical for maintaining mental health.
